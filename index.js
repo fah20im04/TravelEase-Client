@@ -32,18 +32,40 @@ async function run() {
         });
 
         await client.connect();
-        console.log('✅ Connected to MongoDB securely');
+        console.log(' Connected to MongoDB securely');
 
         // Select database and collection
         const db = client.db(dbName);
         const vehiclesCollection = db.collection('vehicles');
+
+        const usersCollection = db.collection('users');
+
+        // users API
+
+        app.post('/users', async (req, res) => {
+            const newUser = req.body;
+            const email = newUser.email;
+            const query = {email: email};
+
+            const existingUser  = await usersCollection.findOne(query);
+
+            if(existingUser){
+                res.send({message: 'user already exist in the db'});
+
+            }else{
+                const result = await usersCollection.insertOne(newUser);
+                res.send(result);
+                
+            }
+        })
+
 
         //  POST route to add vehicle data with created_at field
         app.post('/vehicles', async (req, res) => {
             try {
                 const vehicle = {
                     ...req.body,
-                    created_at: new Date(), 
+                    created_at: new Date(),
                 };
                 const result = await vehiclesCollection.insertOne(vehicle);
                 res.status(201).send({
