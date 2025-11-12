@@ -116,12 +116,12 @@ async function run() {
             }
         })
 
-        // Add this in your backend (server.js or index.js)
+
         app.post('/vehicles', async (req, res) => {
             try {
                 const vehicle = {
                     ...req.body,
-                    created_at: new Date(), // store timestamp
+                    created_at: new Date(),
                 };
 
                 const result = await vehiclesCollection.insertOne(vehicle);
@@ -156,6 +156,28 @@ async function run() {
                 res.status(500).send({ error: 'Failed to delete vehicle' });
             }
         });
+
+        // update related api
+
+        app.put('/vehicles/:id', async (req, res) => {
+            const { id } = req.params;
+            const updatedData = req.body;
+            try {
+                const result = await vehiclesCollection.updateOne(
+                    { _id: new ObjectId(id) },
+                    { $set: updatedData }
+                );
+                if (result.modifiedCount === 1) {
+                    res.send({ message: "Vehicle updated successfully" });
+                } else {
+                    res.status(400).send({ error: "No changes made or invalid ID" });
+                }
+            } catch (err) {
+                console.error(err);
+                res.status(500).send({ error: "Failed to update vehicle" });
+            }
+        });
+
 
 
         // single vehicles api
