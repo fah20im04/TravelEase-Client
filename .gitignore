@@ -6,3 +6,6 @@ node_modules/
 .env.local
 .env.production
 .env.development
+
+# Firebase private key
+serviceAccountKey.json
