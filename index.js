@@ -14,10 +14,11 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: true,
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 // JWT verification middleware
@@ -230,4 +231,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-module.exports = app;
+app.listen(port, () =>
+  console.log(`TravelEase server running on port ${port}`)
+);
