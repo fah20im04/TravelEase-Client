@@ -56,6 +56,10 @@ async function run() {
     const usersCollection = db.collection("users");
     const bookingCollection = db.collection("bookings");
 
+    app.get("/api/health", (req, res) => {
+      res.json({ status: "ok", time: new Date() });
+    });
+
     // ---------------- USERS ----------------
     app.post("/users", async (req, res) => {
       const newUser = req.body;
