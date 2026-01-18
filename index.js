@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
@@ -40,7 +40,7 @@ const verifyToken = (req, res, next) => {
 };
 
 app.get("/", (req, res) =>
-  res.status(200).send("TravelEase server running...")
+  res.status(200).send("TravelEase server running..."),
 );
 
 async function run() {
@@ -230,7 +230,8 @@ async function run() {
   }
 }
 run().catch(console.dir);
+module.exports = app;
 
 app.listen(port, () =>
-  console.log(`TravelEase server running on port ${port}`)
+  console.log(`TravelEase server running on port ${port}`),
 );
